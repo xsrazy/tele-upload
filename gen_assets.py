@@ -67,8 +67,8 @@ og.paste(badge, (100, 215), badge)
 f_title = font(FONT_BOLD, 92)
 f_sub = font(FONT_REG, 40)
 d.text((340, 250), "Tele Upload", font=f_title, fill=WHITE)
-d.text((340, 370), "Upload files, stored on Telegram.", font=f_sub, fill=LIGHT)
-d.text((340, 430), "Max 20 MB per file.", font=f_sub, fill=LIGHT)
+d.text((340, 370), "Upload files, stored on Telegram + Drive.", font=f_sub, fill=LIGHT)
+d.text((340, 430), "Up to 20 MB both, larger files Drive only.", font=f_sub, fill=LIGHT)
 og.save(os.path.join(OUT, "og.png"))
 
 for f in ["favicon.png", "apple-touch-icon.png", "favicon.ico", "og.png"]:

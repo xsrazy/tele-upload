@@ -3,7 +3,7 @@ const PAGE = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tele Upload - Upload Files, Stored on Telegram</title>
+<title>Tele Upload - Upload Files, Stored on Telegram + Drive</title>
 <meta name="description" content="Tele Upload: upload files via the web, stored safely on Telegram + Drive. Up to 20 MB go to both, over 20 MB Drive only.">
 <meta name="keywords" content="upload files, store files, telegram, tele upload, file sharing, file hosting">
 <meta name="robots" content="index, follow">
@@ -16,15 +16,15 @@ const PAGE = `<!DOCTYPE html>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tele Upload">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Tele Upload - Upload Files, Stored on Telegram">
+<meta property="og:title" content="Tele Upload - Upload Files, Stored on Telegram + Drive">
 <meta property="og:description" content="Upload files via the web, stored safely on Telegram + Drive. Up to 20 MB go to both, over 20 MB Drive only.">
 <meta property="og:url" content="https://upload.xsrazy.web.id/">
 <meta property="og:image" content="https://upload.xsrazy.web.id/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Tele Upload - Upload files, stored on Telegram">
+<meta property="og:image:alt" content="Tele Upload - Upload files, stored on Telegram + Drive">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tele Upload - Upload Files, Stored on Telegram">
+<meta name="twitter:title" content="Tele Upload - Upload Files, Stored on Telegram + Drive">
 <meta name="twitter:description" content="Upload files via the web, stored safely on Telegram + Drive. Up to 20 MB go to both, over 20 MB Drive only.">
 <meta name="twitter:image" content="https://upload.xsrazy.web.id/og.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Tele Upload","url":"https://upload.xsrazy.web.id/","description":"Upload files via the web, stored safely on Telegram + Drive. Up to 20 MB go to both, over 20 MB Drive only.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"IDR"}}</script>
@@ -85,15 +85,15 @@ const LOCK = `<!DOCTYPE html>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tele Upload">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Tele Upload - Upload Files, Stored on Telegram">
+<meta property="og:title" content="Tele Upload - Upload Files, Stored on Telegram + Drive">
 <meta property="og:description" content="Upload files via the web, stored safely on Telegram + Drive. Up to 20 MB go to both, over 20 MB Drive only.">
 <meta property="og:url" content="https://upload.xsrazy.web.id/">
 <meta property="og:image" content="https://upload.xsrazy.web.id/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Tele Upload - Upload files, stored on Telegram">
+<meta property="og:image:alt" content="Tele Upload - Upload files, stored on Telegram + Drive">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tele Upload - Upload Files, Stored on Telegram">
+<meta name="twitter:title" content="Tele Upload - Upload Files, Stored on Telegram + Drive">
 <meta name="twitter:description" content="Upload files via the web, stored safely on Telegram + Drive. Up to 20 MB go to both, over 20 MB Drive only.">
 <meta name="twitter:image" content="https://upload.xsrazy.web.id/og.png">
 <style>
