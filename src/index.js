@@ -1,11 +1,11 @@
 const PAGE = `<!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tele Upload - Upload File, Tersimpan di Telegram</title>
-<meta name="description" content="Tele Upload: upload file lewat web, tersimpan aman di Telegram + Drive. Sampai 20 MB masuk keduanya, di atas 20 MB Drive saja.">
-<meta name="keywords" content="upload file, simpan file, telegram, tele upload, berbagi file, file hosting">
+<title>Tele Upload - Upload Files, Stored on Telegram</title>
+<meta name="description" content="Tele Upload: upload files via the web, stored safely on Telegram + Drive. Up to 20 MB goes to both, above 20 MB Drive only.">
+<meta name="keywords" content="upload files, save files, telegram, tele upload, file sharing, file hosting">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0f766e">
 <link rel="canonical" href="https://upload.xsrazy.web.id/">
@@ -15,19 +15,19 @@ const PAGE = `<!DOCTYPE html>
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tele Upload">
-<meta property="og:locale" content="id_ID">
-<meta property="og:title" content="Tele Upload - Upload File, Tersimpan di Telegram">
-<meta property="og:description" content="Upload file lewat web, tersimpan aman di Telegram + Drive. Sampai 20 MB masuk keduanya, di atas 20 MB Drive saja.">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Tele Upload - Upload Files, Stored on Telegram">
+<meta property="og:description" content="Upload files via the web, stored safely on Telegram + Drive. Up to 20 MB goes to both, above 20 MB Drive only.">
 <meta property="og:url" content="https://upload.xsrazy.web.id/">
 <meta property="og:image" content="https://upload.xsrazy.web.id/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Tele Upload - Upload file, tersimpan di Telegram">
+<meta property="og:image:alt" content="Tele Upload - Upload files, stored on Telegram">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tele Upload - Upload File, Tersimpan di Telegram">
-<meta name="twitter:description" content="Upload file lewat web, tersimpan aman di Telegram + Drive. Sampai 20 MB masuk keduanya, di atas 20 MB Drive saja.">
+<meta name="twitter:title" content="Tele Upload - Upload Files, Stored on Telegram">
+<meta name="twitter:description" content="Upload files via the web, stored safely on Telegram + Drive. Up to 20 MB goes to both, above 20 MB Drive only.">
 <meta name="twitter:image" content="https://upload.xsrazy.web.id/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Tele Upload","url":"https://upload.xsrazy.web.id/","description":"Upload file lewat web, tersimpan aman di Telegram + Drive. Sampai 20 MB masuk keduanya, di atas 20 MB Drive saja.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"IDR"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Tele Upload","url":"https://upload.xsrazy.web.id/","description":"Upload files via the web, stored safely on Telegram + Drive. Up to 20 MB goes to both, above 20 MB Drive only.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"IDR"}}</script>
 <style>
   body { font-family: Arial, Helvetica, sans-serif; background: #f2f2f2; margin: 0; padding: 24px; color: #222; line-height: 1.6; }
   .wrap { background: #fff; max-width: 620px; margin: 0 auto; padding: 28px 30px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
@@ -47,35 +47,35 @@ const PAGE = `<!DOCTYPE html>
 <body>
 <div class="wrap">
   <h1>Tele Upload</h1>
-  <div class="sub">Upload file, tersimpan di Telegram + Drive. Sampai 20 MB masuk keduanya, di atas 20 MB Drive saja.</div>
+  <div class="sub">Upload files, stored on Telegram + Drive. Up to 20 MB goes to both, above 20 MB Drive only.</div>
   <form id="up">
-    <label for="file">File (bisa banyak sekaligus)</label>
+    <label for="file">Files (multiple files allowed)</label>
     <input type="file" id="file" multiple required>
     <button type="submit">Upload</button>
-    <button type="button" id="logout" style="background:#777;margin-left:8px;">Keluar</button>
+    <button type="button" id="logout" style="background:#777;margin-left:8px;">Logout</button>
   </form>
   <div id="status"></div>
-  <h2>Daftar File</h2>
-  <div id="list"><p>Memuat...</p></div>
-  <p class="note">File sampai 20 MB disimpan di Telegram + Drive, di atas 20 MB Drive saja. Download dialirkan lewat server, token bot tidak pernah dibagikan ke browser. Halaman ini terkunci kunci upload.</p>
+  <h2>File List</h2>
+  <div id="list"><p>Loading...</p></div>
+  <p class="note">Files up to 20 MB are stored on Telegram + Drive, above 20 MB Drive only. Downloads stream through the server; the bot token is never shared with the browser. This page is locked with the upload key.</p>
 </div>
 <script>
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function fmt(n){if(n<1024)return n+' B';if(n<1048576)return (n/1024).toFixed(1)+' KB';return (n/1048576).toFixed(1)+' MB';}
-async function loadList(){var r=await fetch('/api/list');if(r.status===401){location.reload();return;}var d=await r.json();var el=document.getElementById('list');if(!d.files||!d.files.length){el.innerHTML='<p>Belum ada file.</p>';return;}var h='';for(var i=0;i<d.files.length;i++){var f=d.files[i];h+='<div class="row"><span>'+esc(f.filename)+' ('+fmt(f.size)+')</span> <span><a href="/api/download/'+f.id+'">Download</a> <button class="del" onclick="doDelete('+f.id+',this)">Hapus</button></span></div>';}el.innerHTML=h;}
-async function doUpload(ev){ev.preventDefault();var fi=document.getElementById('file');var st=document.getElementById('status');if(!fi.files.length){st.textContent='Pilih file dulu.';return;}var ok=0,fail=0;var lines=[];for(var i=0;i<fi.files.length;i++){var f=fi.files[i];st.textContent='Mengupload '+(i+1)+'/'+fi.files.length+': '+f.name+'...';var fd=new FormData();fd.append('file',f);try{var r=await fetch('/api/upload',{method:'POST',body:fd});var d=await r.json();if(r.status===401){location.reload();return;}if(!r.ok){fail++;lines.push('Gagal: '+f.name+' ('+(d.error||r.status)+')');}else{ok++;lines.push('OK: '+f.name+(d.drive_only?' (Drive saja)':''));}}catch(e){fail++;lines.push('Gagal: '+f.name+' ('+e.message+')');}if(i<fi.files.length-1){await new Promise(function(res){setTimeout(res,1200);});}}st.innerHTML=lines.map(function(l){return esc(l);}).join('<br>')+'<br>'+ok+' berhasil, '+fail+' gagal.';fi.value='';if(ok>0)loadList();}
-async function doDelete(id,btn){if(!confirm('Hapus file ini? File juga dihapus dari Telegram dan Drive.'))return;btn.disabled=true;var r=await fetch('/api/delete/'+id,{method:'DELETE'});if(r.status===401){location.reload();return;}var d=await r.json();if(!r.ok){alert('Gagal hapus: '+(d.error||r.status));btn.disabled=false;return;}loadList();}
+async function loadList(){var r=await fetch('/api/list');if(r.status===401){location.reload();return;}var d=await r.json();var el=document.getElementById('list');if(!d.files||!d.files.length){el.innerHTML='<p>No files yet.</p>';return;}var h='';for(var i=0;i<d.files.length;i++){var f=d.files[i];h+='<div class="row"><span>'+esc(f.filename)+' ('+fmt(f.size)+')</span> <span><a href="/api/download/'+f.id+'">Download</a> <button class="del" onclick="doDelete('+f.id+',this)">Delete</button></span></div>';}el.innerHTML=h;}
+async function doUpload(ev){ev.preventDefault();var fi=document.getElementById('file');var st=document.getElementById('status');if(!fi.files.length){st.textContent='Select a file first.';return;}var ok=0,fail=0;var lines=[];for(var i=0;i<fi.files.length;i++){var f=fi.files[i];st.textContent='Uploading '+(i+1)+'/'+fi.files.length+': '+f.name+'...';var fd=new FormData();fd.append('file',f);try{var r=await fetch('/api/upload',{method:'POST',body:fd});var d=await r.json();if(r.status===401){location.reload();return;}if(!r.ok){fail++;lines.push('Failed: '+f.name+' ('+(d.error||r.status)+')');}else{ok++;lines.push('OK: '+f.name+(d.drive_only?' (Drive only)':''));}}catch(e){fail++;lines.push('Failed: '+f.name+' ('+e.message+')');}if(i<fi.files.length-1){await new Promise(function(res){setTimeout(res,1200);});}}st.innerHTML=lines.map(function(l){return esc(l);}).join('<br>')+'<br>'+ok+' succeeded, '+fail+' failed.';fi.value='';if(ok>0)loadList();}
+async function doDelete(id,btn){if(!confirm('Delete this file? It will also be deleted from Telegram and Drive.'))return;btn.disabled=true;var r=await fetch('/api/delete/'+id,{method:'DELETE'});if(r.status===401){location.reload();return;}var d=await r.json();if(!r.ok){alert('Failed to delete: '+(d.error||r.status));btn.disabled=false;return;}loadList();}
 document.getElementById('up').addEventListener('submit',doUpload);document.getElementById('logout').addEventListener('click',async function(){await fetch('/api/logout',{method:'POST'});location.reload();});loadList();
 </script>
 </body>
 </html>`;
 
 const LOCK = `<!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tele Upload - Terkunci</title>
+<title>Tele Upload - Locked</title>
 <meta name="robots" content="noindex, nofollow">
 <style>
   body { font-family: Arial, Helvetica, sans-serif; background: #f2f2f2; margin: 0; padding: 24px; color: #222; line-height: 1.6; }
@@ -91,16 +91,16 @@ const LOCK = `<!DOCTYPE html>
 <body>
 <div class="wrap">
   <h1>Tele Upload</h1>
-  <div class="sub">Halaman ini terkunci. Masukkan kunci upload untuk membuka.</div>
+  <div class="sub">This page is locked. Enter the upload key to open it.</div>
   <form id="lk">
-    <label for="key">Kunci upload</label>
+    <label for="key">Upload key</label>
     <input type="password" id="key" required autofocus>
-    <button type="submit">Buka</button>
+    <button type="submit">Open</button>
   </form>
   <div id="err"></div>
 </div>
 <script>
-document.getElementById('lk').addEventListener('submit',async function(ev){ev.preventDefault();var k=document.getElementById('key').value;var e=document.getElementById('err');e.textContent='Memeriksa...';try{var r=await fetch('/api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:k})});if(r.ok){location.reload();}else{e.textContent='Kunci salah.';}}catch(err){e.textContent='Gagal: '+err.message;}});
+document.getElementById('lk').addEventListener('submit',async function(ev){ev.preventDefault();var k=document.getElementById('key').value;var e=document.getElementById('err');e.textContent='Checking...';try{var r=await fetch('/api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:k})});if(r.ok){location.reload();}else{e.textContent='Wrong key.';}}catch(err){e.textContent='Failed: '+err.message;}});
 </script>
 </body>
 </html>`;
@@ -219,7 +219,7 @@ export default {
       let body = {};
       try { body = await request.json(); } catch (e) {}
       if (!env.UPLOAD_KEY || body.key !== env.UPLOAD_KEY) {
-        return json({ error: 'Kunci salah.' }, 401);
+        return json({ error: 'Wrong key.' }, 401);
       }
       const bytes = new Uint8Array(32);
       crypto.getRandomValues(bytes);
@@ -249,7 +249,7 @@ export default {
 
     if (url.pathname === '/api/list' && request.method === 'GET') {
       if (!(await isAuthed(request, env))) {
-        return json({ error: 'Kunci salah.' }, 401);
+        return json({ error: 'Wrong key.' }, 401);
       }
       const rows = await env.DB.prepare(
         'SELECT id, filename, mime, size, created_at FROM files ORDER BY id DESC LIMIT 100'
@@ -259,13 +259,13 @@ export default {
 
     if (url.pathname === '/api/upload' && request.method === 'POST') {
       if (!(await isAuthed(request, env))) {
-        return json({ error: 'Kunci upload salah.' }, 401);
+        return json({ error: 'Wrong upload key.' }, 401);
       }
       let form;
       try {
         form = await request.formData();
       } catch (e) {
-        return json({ error: 'Form tidak valid.' }, 400);
+        return json({ error: 'Invalid form.' }, 400);
       }
       const file = form.get('file');
       if (!file || typeof file === 'string') {
@@ -274,12 +274,12 @@ export default {
       const driveOnly = file.size > MAX_SIZE;
       const googleConfigured = Boolean(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET && env.GOOGLE_REFRESH_TOKEN);
       if (driveOnly && !googleConfigured) {
-        return json({ error: 'File di atas 20 MB hanya bisa ke Drive, tapi Drive belum dikonfigurasi.' }, 502);
+        return json({ error: 'Files over 20 MB can only go to Drive, but Drive is not configured.' }, 502);
       }
       let tgData = null;
       if (!driveOnly) {
         if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHANNEL_ID) {
-          return json({ error: 'Belum dikonfigurasi: token bot / channel belum diset.' }, 500);
+          return json({ error: 'Not configured: bot token / channel not set.' }, 500);
         }
         const tg = new FormData();
         tg.append('chat_id', env.TELEGRAM_CHANNEL_ID);
@@ -331,12 +331,12 @@ export default {
             }
             if (folderId) {
               driveFileId = await driveUpload(env, file, folderId, token);
-              if (!driveFileId) driveError = 'Drive upload gagal.';
+              if (!driveFileId) driveError = 'Drive upload failed.';
             } else {
-              driveError = 'Folder Drive tidak ditemukan.';
+              driveError = 'Drive folder not found.';
             }
           } else {
-            driveError = 'Token Drive gagal diperbarui.';
+            driveError = 'Failed to refresh Drive token.';
           }
         } catch (e) {
           driveError = 'Drive error: ' + e.message;
@@ -359,12 +359,12 @@ export default {
 
     if (url.pathname.startsWith('/api/delete/') && request.method === 'DELETE') {
       if (!(await isAuthed(request, env))) {
-        return json({ error: 'Kunci upload salah.' }, 401);
+        return json({ error: 'Wrong upload key.' }, 401);
       }
       const id = url.pathname.replace('/api/delete/', '');
       const row = await env.DB.prepare('SELECT * FROM files WHERE id = ?').bind(id).first();
       if (!row) {
-        return json({ error: 'File tidak ditemukan.' }, 404);
+        return json({ error: 'File not found.' }, 404);
       }
       let tgGone = true;
       if (row.message_id && env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHANNEL_ID) {
@@ -383,7 +383,7 @@ export default {
           if (desc.indexOf('message to delete not found') !== -1) {
             tgGone = true;
           } else {
-            return json({ error: 'Gagal menghapus dari Telegram: ' + desc }, 502);
+            return json({ error: 'Failed to delete from Telegram: ' + desc }, 502);
           }
         }
       }
@@ -404,27 +404,27 @@ export default {
 
     if (url.pathname.startsWith('/api/download/') && request.method === 'GET') {
       if (!(await isAuthed(request, env))) {
-        return json({ error: 'Kunci salah.' }, 401);
+        return json({ error: 'Wrong key.' }, 401);
       }
       const id = url.pathname.replace('/api/download/', '');
       const row = await env.DB.prepare('SELECT * FROM files WHERE id = ?').bind(id).first();
       if (!row) {
-        return json({ error: 'File tidak ditemukan.' }, 404);
+        return json({ error: 'File not found.' }, 404);
       }
       if (!row.file_id && row.drive_file_id) {
         if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET || !env.GOOGLE_REFRESH_TOKEN) {
-          return json({ error: 'Drive belum dikonfigurasi.' }, 500);
+          return json({ error: 'Drive is not configured.' }, 500);
         }
         const token = await driveAccessToken(env);
         if (!token) {
-          return json({ error: 'Token Drive gagal diperbarui.' }, 502);
+          return json({ error: 'Failed to refresh Drive token.' }, 502);
         }
         const dvRes = await fetch(
           'https://www.googleapis.com/drive/v3/files/' + encodeURIComponent(row.drive_file_id) + '?alt=media',
           { headers: { authorization: 'Bearer ' + token } }
         );
         if (!dvRes.ok) {
-          return json({ error: 'Gagal mengunduh file dari Drive.' }, 502);
+          return json({ error: 'Failed to download file from Drive.' }, 502);
         }
         const safeName = String(row.filename).replace(/["\r\n]/g, '');
         const headers = {
@@ -436,20 +436,20 @@ export default {
         return new Response(dvRes.body, { headers });
       }
       if (!env.TELEGRAM_BOT_TOKEN) {
-        return json({ error: 'Belum dikonfigurasi.' }, 500);
+        return json({ error: 'Not configured.' }, 500);
       }
       const gfRes = await fetch(
         'https://api.telegram.org/bot' + env.TELEGRAM_BOT_TOKEN + '/getFile?file_id=' + encodeURIComponent(row.file_id)
       );
       const gfData = await gfRes.json();
       if (!gfData.ok) {
-        return json({ error: 'Gagal mengambil file dari Telegram.' }, 502);
+        return json({ error: 'Failed to fetch file from Telegram.' }, 502);
       }
       const fileRes = await fetch(
         'https://api.telegram.org/file/bot' + env.TELEGRAM_BOT_TOKEN + '/' + gfData.result.file_path
       );
       if (!fileRes.ok) {
-        return json({ error: 'Gagal mengunduh file dari Telegram.' }, 502);
+        return json({ error: 'Failed to download file from Telegram.' }, 502);
       }
       const safeName = String(row.filename).replace(/["\r\n]/g, '');
       const headers = {
