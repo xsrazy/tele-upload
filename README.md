@@ -18,12 +18,12 @@ The site is locked behind an upload key, so the public face of the website is th
 
 Tele Upload is a single-page web app for storing files in places you already trust. Upload a file and it is sent to a Telegram chat via the Bot API while its metadata (name, size, Telegram `file_id`, message id, Drive id) is stored in Cloudflare D1. Every upload is also mirrored to Google Drive. Downloads stream back through the Worker, either from Telegram's `getFile` or from the Drive API, so no token or credential ever ships to the browser.
 
-The web UI itself is in Indonesian. The project is dependency-free: one Worker script, one D1 database, and a folder of static assets.
+The web UI itself is in English. The project is dependency-free: one Worker script, one D1 database, and a folder of static assets.
 
 ## Features
 
-- **Multi-file upload** — the form accepts many files at once; they are sent one by one with a ~1.2 second gap, and the page reports a per-file status line (`OK` / `Gagal`) plus a success/failure count.
-- **File list** — the index is read from D1, newest first, showing filename and human-readable size, with a **Download** link and a red **Hapus** (delete) button that asks for confirmation first.
+- **Multi-file upload** — the form accepts many files at once; they are sent one by one with a ~1.2 second gap, and the page reports a per-file status line (`OK` / `Failed`) plus a success/failure count.
+- **File list** — the index is read from D1, newest first, showing filename and human-readable size, with a **Download** link and a red **Delete** button that asks for confirmation first.
 - **Telegram + Drive mirror** — files up to 20 MB go to Telegram **and** Drive. Files over 20 MB go to **Drive only** (Telegram is skipped, because bot downloads via `getFile` are capped at 20 MB). A file over 20 MB is rejected when Google credentials are not configured, so it can never end up stored nowhere.
 - **Drive failures never fail uploads** — if the Drive mirror fails, the Telegram upload still succeeds and `drive_error` is reported in the response instead.
 - **Telegram 429 auto-retry** — when Telegram rate-limits, the Worker waits `retry_after` (capped at 30 seconds) and retries once.
@@ -96,7 +96,7 @@ The D1 `database_id` in `wrangler.toml` is censored with `******` in this reposi
 ## Notes
 
 - The repository's existing `README.md` was replaced by this document; the project itself is unchanged.
-- The lock-page screenshot in this README was captured from the live site; the uploader UI behind the key is not publicly screenshottable without the upload key.
+- The lock-page screenshot in this README was supplied by the project owner; the uploader UI behind the key is not publicly screenshottable without the upload key.
 
 ## Credits
 
