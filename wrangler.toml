@@ -1,0 +1,13 @@
+name = "tele-upload"
+main = "src/index.js"
+compatibility_date = "2026-10-25"
+workers_dev = false
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tele-upload"
+database_id = "******"
+
+[assets]
+binding = "ASSETS"
+directory = "./public"
